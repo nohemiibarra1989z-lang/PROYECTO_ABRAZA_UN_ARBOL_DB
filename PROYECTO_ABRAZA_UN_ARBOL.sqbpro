@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="PROYECTO_ABRAZA_UN_ARBOL.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1556"/><column_width id="4" width="0"/><expanded_item id="0" parent="0"/><expanded_item id="1" parent="0"/><expanded_item id="2" parent="0"/><expanded_item id="0" parent="1"/><expanded_item id="0" parent="0"/><expanded_item id="1" parent="0"/><expanded_item id="2" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="INSTITUCION" custom_title="0" dock_id="1" table="4,11:mainINSTITUCION"/><dock_state state="000000ff00000000fd00000001000000020000043c000002b6fc0100000001fb000000160064006f0063006b00420072006f007700730065003101000000000000043c0000011e00ffffff0000043c0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="BENEFICIARIO" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="112"/><column index="2" value="265"/><column index="3" value="124"/><column index="4" value="85"/><column index="5" value="76"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="INSTITUCION" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="109"/><column index="2" value="132"/><column index="3" value="156"/><column index="4" value="85"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="PLANTA" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="73"/><column index="2" value="109"/><column index="3" value="117"/><column index="4" value="78"/><column index="5" value="108"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="sqlite_sequence" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="39"/><column index="2" value="29"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">--CREACION DE TABLA 1 CON RESTRICCIONES (DDL)
+CREATE TABLE PLANTA (ID_PLANTA INTEGER PRIMARY KEY AUTOINCREMENT, ESPECIE TEXT NOT NULL, ALTURA TEXT NOT NULL, RAIZ TEXT NOT NULL, 
+ID_INSTITUCION INTEGER, FOREIGN KEY (ID_INSTITUCION) REFERENCES INSTITUCION (ID_INSTITUCION));
+
+--INSERCION DE DATOS (DML)
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Trueno', '3 a 10 metros', 'Pivotante', '55');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Tronadora', '1 a 8 metros', 'Pivotante', '64');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Guayabo', '5 a 6 metros', 'Pivotante', '72');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Tronadora', '1 a 8 metros', 'Pivotante', '82');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Trueno', '3 a 10 metros', 'Pivotante', '46');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Trueno', '3 a 10 metros', 'Pivotante', '35');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Lluvia de Oro', '40 a 50cm', 'Pivotante', '29');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Tronadora', '1 a 8 metros', 'Pivotante', '16');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Fresno', '15 a 20 metros', 'Pivotante', '92');
+INSERT INTO PLANTA (ESPECIE, ALTURA, RAIZ, ID_INSTITUCION)
+VALUES ('Trueno', '3 a 10 metros', 'Pivotante', '22');
+
+--CONSULTAS BASICAS DE VERIFICACION (DML)
+SELECT * FROM PLANTA ;
+SELECT * FROM PLANTA WHERE ALTURA &lt;=3;
+SELECT * FROM PLANTA WHERE ESPECIE = 'Trueno';
+
+--INNER JOIN
+
+SELECT PLANTA.ESPECIE AS 'NOMBRE PLANTA',
+INSTITUCION.DIRECCION
+FROM PLANTA
+INNER JOIN INSTITUCION ON PLANTA.ID_INSTITUCION=INSTITUCION.ID_INSTITUCION;
+
+SELECT BENEFICIARIO.NOMBRE  AS 'NOMBRE BENEFICIARIO',
+PLANTA.ESPECIE
+FROM BENEFICIARIO
+INNER JOIN PLANTA ON BENEFICIARIO.ID_PLANTA=PLANTA.ID_PLANTA;
+
+--GRUPO BY 
+
+SELECT ALTURA, COUNT (*) AS TOTAL
+FROM PLANTA
+GROUP BY ALTURA ;
+
+SELECT ESPECIE, COUNT(*) AS TOTAL
+FROM PLANTA
+GROUP BY ESPECIE ;
+
+--CONSULTA COMBINADA INNER JOIN Y GRUPO BY 
+
+SELECT PLANTA.ESPECIE ,
+COUNT (BENEFICIARIO.ID_BENEFICIARIO ) AS TOTAL_BENEFICIARIO
+FROM  BENEFICIARIO
+INNER JOIN PLANTA
+ON BENEFICIARIO.ID_PLANTA = PLANTA.ID_PLANTA
+GROUP BY PLANTA.ESPECIE ;
+
+
+
+
+
+--CREACION DE TABLA 2 CON RESTRICCIONES (DDL)
+CREATE TABLE BENEFICIARIO (ID_BENEFICIARIO TEXT PRIMARY KEY, NOMBRE TEXT NOT NULL, DIRECCION TEXT, TELEFONO TEXT,
+ID_PLANTA TEXT INTEGER, FOREIGN KEY (ID_PLANTA) REFERENCES PLANTA (ID_PLANTA));
+
+
+--INSERCION DE DATOS (DML)
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('123', 'Andrea Toyama de Leon Macias', 'Saguaro #135', '4498034961', '1');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('456', 'Mario Hernandez Salcido', 'Cubaya #102', '4498105974', '2');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('789', 'Claudia Hernandez Aguilar', 'Pitahaya #103', '4496058544', '3');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('321', 'Jose Angel Serrano Mares', 'Pitahaya #221', '4493905983', '4');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('654', 'Marisol de Leon Vargas', 'Pitahaya #210', '4494281620', '5');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('987', 'Erika Ortega Valencia', 'Grenovia #103', '4491564019', '6');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('112', 'Cesar Armando Rodriguez ', 'Saguaro #131', '4492121243', '7');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('221', 'Alejandra Castañeda de la Cruz', 'Cubaya #101', '4497563568',' 8');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('332', 'Martin Caballero Capuchino', 'Fresno #221', '4497809496', '9');
+INSERT INTO BENEFICIARIO (ID_BENEFICIARIO, NOMBRE, DIRECCION , TELEFONO, ID_PLANTA)
+VALUES ('443', 'Griselda Alejandra Macias Herrera', 'Garambullo #156','4492561305', '10');
+
+--CONSULTAS BASICAS DE VERIFICACION (DML)
+SELECT * FROM BENEFICIARIO WHERE NOMBRE = 'Martin Caballero Capuchino';
+SELECT * FROM BENEFICIARIO WHERE ID_BENEFICIARIO = '789';
+SELECT * FROM BENEFICIARIO WHERE  ID_BENEFICIARIO = '112';
+
+
+SELECT BENEFICIARIO.NOMBRE AS 'NOMBRE BENEFICIARIO',
+PLANTA.ESPECIE
+FROM BENEFICIARIO
+INNER JOIN PLANTA ON BENEFICIARIO.ID_BENEFICIARIO=BENEFICIARIO.ID_BENEFICIARIO;
+
+
+
+
+--CREACION DE TABLA 3 CON RESTRICCIONES (DDL)
+CREATE TABLE INSTITUCION (ID_INSTITUCION INTEGER PRIMARY KEY, NOMBRE TEXT NOT NULL, DIRECCION TEXT, TELEFONO TEXT,);
+
+--INSERCION DE DATOS (DML)
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('55', 'VIVERO MUNICIPAL', 'JARDINES DEL PARQUE', '4499723010');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('64', 'VIVERO ESTATAL', 'ORTEGA DOUGLAS', '4491020976');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('72', 'VIVERO LA PALMA', 'SOLIDARIDAD 1', '4492739258');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('82', 'VIVERO MUNICIPAL', 'JARDINES DEL PARQUE', '4499723010');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('46', 'VIVERO ESTATAL', 'ORTEGA DOUGLAS', '4491020976');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('35', 'VIVERO LA PALMA', 'SOLIDARIDAD 1', '4492739258');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('29', 'VIVERO MUNICIPAL', 'JARDINES DEL PARQUE', '4499723010');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('16', 'VIVERO ESTATAL', 'ORTEGA DOUGLAS', '4491020976');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('92', 'VIVERO LA PALMA', 'SOLIDARIDAD 1', '4492739258');
+INSERT INTO INSTITUCION (ID_INSTITUCION, NOMBRE, DIRECCION , TELEFONO)
+VALUES ('22', 'VIVERO MUNICIPAL', 'JARDINES DEL PARQUE', '4499723010');
+
+
+
+--CONSULTAS BASICAS DE VERIFICACION (DML)
+SELECT * FROM INSTITUCION;
+SELECT * FROM INSTITUCION WHERE NOMBRE = 'VIVERO MUNICIPAL';
+SELECT * FROM INSTITUCION WHERE DIRECCION = 'JARDINES DEL PARQUE';
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
